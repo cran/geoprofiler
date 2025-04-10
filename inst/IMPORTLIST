@@ -1,0 +1,7 @@
+as.data.frame = base
+as.matrix = base
+atan2 = base
+mean = base
+nrow = base
+plot = graphics
+t = base
