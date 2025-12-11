@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![](https://www.r-pkg.org/badges/version/geoprofiler)](https://cran.r-project.org/package=geoprofiler)
+[![](http://cranlogs.r-pkg.org/badges/last-month/geoprofiler)](https://cran.r-project.org/package=geoprofiler)
 [![R-CMD-check](https://github.com/tobiste/geoprofiler/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tobiste/geoprofiler/actions/workflows/R-CMD-check.yaml)
 [![codecov](https://codecov.io/gh/tobiste/geoprofiler/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tobiste/geoprofiler?branch=main)
 <!-- badges: end -->
@@ -21,8 +23,15 @@ distances along and across your profile.
 
 ## Installation
 
-You can install the development version of `{geoprofiler}` from
-[GitHub](https://github.com/) with:
+You must have R installed on your system (see
+<https://www.r-project.org/>). To install `{geoprofiler}` from CRAN,
+type the following code at the R command line prompt:
+
+    install.packages("geoprofiler")
+
+The most recent development version of `{geoprofiler}` is available from
+from [GitHub](https://github.com/) and can be installed on your system
+as follows:
 
 ``` r
 # install.packages("devtools")
@@ -100,6 +109,11 @@ I welcome feedback, suggestions, issues, and contributions! If you have
 found a bug, please file it
 [here](https://github.com/tobiste/geoprofiler/issues) with minimal code
 to reproduce the issue.
+
+## How to cite geoprofiler
+
+When referencing this package, please cite the package DOI:
+[10.32614/CRAN.package.geoprofiler](https://doi.org/10.32614/CRAN.package.geoprofiler).
 
 ## License
 

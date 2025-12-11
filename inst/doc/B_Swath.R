@@ -18,7 +18,7 @@ options(ggplot2.continuous.colour = "viridis")
 options(ggplot2.continuous.fill = "viridis")
 
 ## ----read, eval=FALSE, include=TRUE-------------------------------------------
-#  my_raster <- terra::rast("path/to/my/file.tif")
+# my_raster <- terra::rast("path/to/my/file.tif")
 
 ## ----load_data----------------------------------------------------------------
 data("raster_example")

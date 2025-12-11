@@ -17,7 +17,7 @@ options(ggplot2.continuous.colour = "viridis")
 options(ggplot2.continuous.fill = "viridis")
 
 ## ----read, eval=FALSE, include=TRUE-------------------------------------------
-#  my_data <- sf::read_sf("path/to/my/file.shp")
+# my_data <- sf::read_sf("path/to/my/file.shp")
 
 ## ----load_data----------------------------------------------------------------
 data("quakes")
@@ -56,7 +56,7 @@ data.frame(lon = 160, lat = 15) |>
   profile_points(profile.azimuth = 112, profile.length = set_units(8000, km))
 
 ## ----draw, eval=FALSE, include=TRUE-------------------------------------------
-#  draw_profile(quakes_sf, n = 3)
+# draw_profile(quakes_sf, n = 3)
 
 ## ----project------------------------------------------------------------------
 quakes_profile <- profile_coords(quakes_sf, profile = profile_l) |>

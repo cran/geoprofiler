@@ -1,10 +1,10 @@
 ---
-title: "1. Distances Along Oriented Profiles"
+title: "Distances Along Oriented Profiles"
 author: "Tobias Stephan"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{1. Distances Along Oriented Profiles}
+  %\VignetteIndexEntry{Distances Along Oriented Profiles}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 editor_options: 
@@ -180,7 +180,7 @@ ggplot(quakes_profile_shifted, aes(X, Y, color = depth, size = mag)) +
 ```
 
 ### Filtering the data
-This plot helps also allows to easily make a subset of our data to avoid 
+This plot also allows to easily make a subset of our data to avoid 
 plotting data points that are too far away from the profile:
 
 ```{r filter}
