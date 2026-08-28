@@ -22,6 +22,29 @@ npts <- function(x) {
     nrow()
 }
 
+#' @importFrom sf st_cast st_coordinates st_as_sf st_crs
+#' @importFrom stats lm predict
+#' @keywords internal
+bestfit_profile <- function(x){
+  pts <- st_cast(x, "POINT") |>
+    st_coordinates() |>
+    as.data.frame()
+
+  xy.lm <- stats::lm(Y ~ X, data = pts)
+  xy.lm.summary <- summary(xy.lm)
+
+  xvals <- range(pts$X, na.rm = TRUE)
+  new <- data.frame(X = xvals)
+  yvals <- predict(xy.lm, new)
+
+  profile <- data.frame(X = xvals, Y = yvals) |>
+    st_as_sf(coords = c(1,2), crs = st_crs(x))
+
+  list(
+    profile = profile,
+    r.squared = xy.lm.summary$r.squared
+  )
+}
 
 #' Profile End Point
 #'
@@ -45,6 +68,8 @@ npts <- function(x) {
 #' @export
 #' @importFrom sf st_as_sf st_coordinates st_crs
 #'
+#' @family profile
+#'
 #' @examples
 #' p1 <- data.frame(lon = -90.8, lat = 48.6) |>
 #'   sf::st_as_sf(coords = c("lon", "lat"), crs = "WGS84")
@@ -53,12 +78,12 @@ npts <- function(x) {
 #'   crs = sf::st_crs("EPSG:26915")
 #' )
 profile_points <- function(start, profile.azimuth, profile.length, crs = st_crs(start), return.sf = TRUE) {
-  stopifnot(
-    # inherits(start, 'sf'),
-    # is.numeric(profile.azimuth),
-    # inherits(profile.length, 'units'),
-    is.logical(return.sf)
-  )
+  # stopifnot(
+  #   # inherits(start, 'sf'),
+  #   # is.numeric(profile.azimuth),
+  #   # inherits(profile.length, 'units'),
+  #   is.logical(return.sf)
+  # )
 
   if (inherits(profile.azimuth, "units")) {
     profile.azimuth <- units::set_units(profile.azimuth, "degree") |>
@@ -85,7 +110,7 @@ profile_points <- function(start, profile.azimuth, profile.length, crs = st_crs(
     Y = p1_trans[1, 2] - tectonicr:::cosd(90 - profile.azimuth) * l
   )
   profile <- rbind(pq = p1_trans, end) |> as.data.frame(row.names = c("start", "end"), col.names = c("X", "Y"))
-  if (return.sf) {
+  if (isTRUE(return.sf)) {
     profile |> st_as_sf(coords = c("X", "Y"), crs = crs)
   } else {
     profile
@@ -94,22 +119,48 @@ profile_points <- function(start, profile.azimuth, profile.length, crs = st_crs(
 
 #' Combine Points to a Line
 #'
-#' @param x `sf` point object
+#' @param x `sf` point object. If `x` only contains 2 points, then the line will
+#' be the connection between these points. If there are more points, then a
+#'  best-fit line will be determined using linear regression of all points.
 #'
 #' @returns `sf` line object
+#'
 #' @export
+#'
 #' @importFrom sf st_combine st_cast
-#' @seealso [profile_points()]
+#'
+#' @family profile
 #'
 #' @examples
+#' # Create a line from a point and a azimuth
 #' p1 <- data.frame(lon = -90.8, lat = 48.6) |>
 #'   sf::st_as_sf(coords = c("lon", "lat"), crs = "WGS84")
-#' profile_points(p1,
+#' pts1 <- profile_points(p1,
 #'   profile.azimuth = 135, profile.length = 10000,
 #'   crs = sf::st_crs("EPSG:26915")
-#' ) |>
-#'   profile_line()
+#' )
+#' profile_line(pts1)
+#'
+#' # Create a line from fitting set of points
+#' ## Create 100 random points
+#' set.seed(20250411)
+#' x <- runif(100)
+#' y <- 2*x + 10
+#' noise <- rnorm(n = length(y), mean = 0, sd = 0.1)
+#' noisy_y <- y + noise
+#' pts2 <- data.frame(x = x, y = noisy_y) |>
+#'   sf::st_as_sf(coords = c('x', 'y'))
+#'
+#' ## Extract line
+#' profile_line(pts2)
 profile_line <- function(x) {
+  if(npts(x) > 2){
+    cat("Best-fit profile-line using linear regression\n")
+    res <- bestfit_profile(x)
+    rsq <- res$r.squared
+    cat(paste("R-squared:", signif(rsq), "\n"))
+    x <- res$profile
+  }
   sf::st_combine(x) |>
     sf::st_cast("LINESTRING")
 }
@@ -132,7 +183,7 @@ profile_line <- function(x) {
 #'
 #' @export
 #'
-#' @seealso [profile_length()]
+#' @family profile
 #'
 #' @examples
 #' p1 <- data.frame(lon = -90.8, lat = 48.6) |>
@@ -143,6 +194,19 @@ profile_line <- function(x) {
 #'   crs = sf::st_crs("EPSG:26915")
 #' ) |>
 #'   profile_azimuth()
+#'
+#' # Azimuth of a line-fit for a set of points
+#' ## Create 100 random points
+#' set.seed(20250411)
+#' x <- runif(100)
+#' y <- 2*x + 10
+#' noise <- rnorm(n = length(y), mean = 0, sd = 0.1)
+#' noisy_y <- y + noise
+#' pts2 <- data.frame(x = x, y = noisy_y) |>
+#'   sf::st_as_sf(coords = c('x', 'y'))
+#'
+#' ## Extract line
+#' profile_azimuth(pts2)
 profile_azimuth <- function(x) {
   if (npts(x) > 2) {
     interpolate_azimuth(x)
@@ -272,3 +336,5 @@ draw_profile <- function(x, n = 10, ...) {
   get_coordinates(x, n = n, ...) |>
     profile_line()
 }
+
+

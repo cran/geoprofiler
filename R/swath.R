@@ -15,7 +15,7 @@
 #' }
 #' @param raster Raster file (`"SpatRaster"` object as loaded by [terra::rast()])
 #' @param k integer. number of lines on each side of the baseline
-#' @param dist numeric. distance between lines
+#' @param dist numeric. distance between lines. Unit depends on reference system specified by `crs` (see note).
 #' @param crs character. coordinate reference system. Both the `raster` and the
 #' `profile` are transformed into this CRS. Uses the CRS of `raster` by default.
 #' @param method character. method for extraction of raw data, see
@@ -32,6 +32,11 @@
 #' @importFrom stats median quantile sd
 #' @importFrom terra project vect as.lines geom crs extend extract ext
 #' @importFrom sf st_linestring st_sfc st_geometry_type st_transform st_as_sf
+#'
+#' @note The unit of `dist` depends on the coordinate reference system specified
+#' in `crs` (which uses the coordinate system of `raster` by default). This means,
+#' a geographic coordinates system (e.g. WGS84) assumes units in degrees,
+#' while a projected coordinate system (e.g. UTM) assumes meters.
 #'
 #' @details The final width of the swath is: \eqn{2k \times  \text{dist}}.
 #'

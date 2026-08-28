@@ -5,7 +5,7 @@ p1 <- data.frame(lon = -90.8, lat = 48.6) |>
 # profile_crds <- profile_coords(locations_example, profile = p1, azimuth = 135)
 
 test_that("type of object returned is as expected", {
-  expect_s3_class(profile_coords(locations_example, profile = p1, azimuth = 135), "tbl")
+  expect_s3_class(geoprofiler(locations_example, profile = p1, azimuth = 135), "tbl")
 })
 
 test_pt <- sf::st_sfc(
@@ -43,6 +43,6 @@ exptd2 <- tribble(
 )
 
 test_that("type of object returned is as expected", {
-  expect_equal(profile_coords(test_pt, profile = profile2, azimuth = 90), exptd1)
-  expect_equal(profile_coords(test_pt, profile = profile2, azimuth = -90), exptd2)
+  expect_equal(geoprofiler(test_pt, profile = profile2, azimuth = 90), exptd1)
+  expect_equal(geoprofiler(test_pt, profile = profile2, azimuth = -90), exptd2)
 })

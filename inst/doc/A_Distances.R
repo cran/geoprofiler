@@ -59,7 +59,7 @@ data.frame(lon = 160, lat = 15) |>
 # draw_profile(quakes_sf, n = 3)
 
 ## ----project------------------------------------------------------------------
-quakes_profile <- profile_coords(quakes_sf, profile = profile_l) |>
+quakes_profile <- geoprofiler(quakes_sf, profile = profile_l) |>
   bind_cols(quakes_sf)
 
 ## ----profile_map--------------------------------------------------------------

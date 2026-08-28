@@ -11,9 +11,9 @@
 [![codecov](https://codecov.io/gh/tobiste/geoprofiler/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tobiste/geoprofiler?branch=main)
 <!-- badges: end -->
 
-The goal of `{geoprofiler}` is to get distances along and across
-user-defined profile lines or transects. This is useful to visualize the
-distance-dependency of some variables in the geosciences.
+The goal of `{geoprofiler}` is to get accurate distances along and
+across user-defined profile lines or transects. This is useful to
+visualize the distance-dependency of some variables in the geosciences.
 
 ![](man/figures/fig.png)
 
@@ -45,7 +45,7 @@ This is a basic example which shows you how to create a profile.
 ``` r
 library(geoprofiler)
 library(ggplot2)
-#> Warning: package 'ggplot2' was built under R version 4.3.3
+#> Warning: package 'ggplot2' was built under R version 4.5.3
 ```
 
 Import example data and transfer them into a `sf` object:
@@ -65,12 +65,12 @@ profile <- data.frame(lon = c(160, -170), lat = c(-15, -30)) |>
 ```
 
 > Note: You can also create a profile line by a direction via
-> `profile_points()`
+> `geoprofiler()`
 
 Calculate the distances of all points along and across the profile line:
 
 ``` r
-quakes_profile <- profile_coords(quakes_sf, profile = profile) |>
+quakes_profile <- geoprofiler(quakes_sf, profile = profile) |>
   dplyr::bind_cols(quakes_sf)
 ```
 

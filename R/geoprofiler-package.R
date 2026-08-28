@@ -11,7 +11,11 @@
 #'
 #' @author Tobias Stephan
 #'
-#' @name geoprofiler
+#' @name geoprofiler-package
+#'
+## usethis namespace: start
+#' @importFrom lifecycle deprecated
+## usethis namespace: end
 #'
 #' @docType package
 #'

@@ -8,6 +8,13 @@
 #' Is ignored when `profile` contains two points or is a `LINESTRING`.
 #' @param drop.units logical. Whether the return should show the units or not.
 #'
+#' @details
+#' `r lifecycle::badge('superseded')`
+#'
+#' `profile_coords()` is superseded by `geoprofiler()` because the name of the
+#' function is more intuitive.
+#'
+#'
 #' @returns `tibble` where `X` is the distance along the profile line.
 #' `Y` is the distance across the profile line. (units of `X` and `Y` depend on
 #' coordinate reference system).
@@ -18,19 +25,25 @@
 #' @importFrom units drop_units set_units
 #'
 #' @author Tobias Stephan
+#' @name profile-coords
 #'
-#' @export
+#'
+#' @family profile
 #'
 #' @examples
 #' data(locations_example)
 #' p1 <- data.frame(lon = -90.8, lat = 48.6) |>
 #'   sf::st_as_sf(coords = c("lon", "lat"), crs = "WGS84")
-#' profile_crds <- profile_coords(locations_example, profile = p1, azimuth = 135)
+#' profile_crds <- geoprofiler(locations_example, profile = p1, azimuth = 135)
 #' head(profile_crds)
 #'
 #' # Plot the transformed coordinates
 #' plot(profile_crds)
-profile_coords <- function(x, profile, azimuth = NULL, drop.units = TRUE) {
+NULL
+
+#' @export
+#' @rdname profile-coords
+geoprofiler <- function(x, profile, azimuth = NULL, drop.units = TRUE) {
   X <- Y <- numeric()
   x2 <- st_transform(x, crs = "WGS84") |>
     st_coordinates() |>
@@ -106,4 +119,11 @@ profile_coords <- function(x, profile, azimuth = NULL, drop.units = TRUE) {
   } else {
     res3
   }
+}
+
+#' @export
+#' @rdname profile-coords
+profile_coords <- function(x, profile, azimuth = NULL, drop.units = TRUE){
+  lifecycle::deprecate_warn("0.0.3.9002", "profile_coords()", "geoprofiler()")
+  geoprofiler(x, profile, azimuth, drop.units)
 }

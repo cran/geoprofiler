@@ -30,7 +30,7 @@ row
 
 \item{k}{integer. number of lines on each side of the baseline}
 
-\item{dist}{numeric. distance between lines}
+\item{dist}{numeric. distance between lines. Unit depends on reference system specified by \code{crs} (see note).}
 
 \item{crs}{character. coordinate reference system. Both the \code{raster} and the
 \code{profile} are transformed into this CRS. Uses the CRS of \code{raster} by default.}
@@ -56,6 +56,12 @@ and points have to be the same.
 }
 \details{
 The final width of the swath is: \eqn{2k \times  \text{dist}}.
+}
+\note{
+The unit of \code{dist} depends on the coordinate reference system specified
+in \code{crs} (which uses the coordinate system of \code{raster} by default). This means,
+a geographic coordinates system (e.g. WGS84) assumes units in degrees,
+while a projected coordinate system (e.g. UTM) assumes meters.
 }
 \examples{
 # Create a random raster

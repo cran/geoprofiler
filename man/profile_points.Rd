@@ -45,3 +45,10 @@ profile_points(p1,
   crs = sf::st_crs("EPSG:26915")
 )
 }
+\seealso{
+Other profile: 
+\code{\link{profile-coords}},
+\code{\link{profile_azimuth}()},
+\code{\link{profile_line}()}
+}
+\concept{profile}

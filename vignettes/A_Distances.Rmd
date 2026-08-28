@@ -128,7 +128,7 @@ draw_profile(quakes_sf, n = 3)
 To calculate the distances along and across the profile, we simply transform the 
 data into a coordinate system of the profile line:
 ```{r project}
-quakes_profile <- profile_coords(quakes_sf, profile = profile_l) |>
+quakes_profile <- geoprofiler(quakes_sf, profile = profile_l) |>
   bind_cols(quakes_sf)
 ```
 

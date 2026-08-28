@@ -30,7 +30,24 @@ profile_points(p1,
   crs = sf::st_crs("EPSG:26915")
 ) |>
   profile_azimuth()
+
+# Azimuth of a line-fit for a set of points
+## Create 100 random points
+set.seed(20250411)
+x <- runif(100)
+y <- 2*x + 10
+noise <- rnorm(n = length(y), mean = 0, sd = 0.1)
+noisy_y <- y + noise
+pts2 <- data.frame(x = x, y = noisy_y) |>
+  sf::st_as_sf(coords = c('x', 'y'))
+
+## Extract line
+profile_azimuth(pts2)
 }
 \seealso{
-\code{\link[=profile_length]{profile_length()}}
+Other profile: 
+\code{\link{profile-coords}},
+\code{\link{profile_line}()},
+\code{\link{profile_points}()}
 }
+\concept{profile}
